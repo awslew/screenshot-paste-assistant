@@ -1,0 +1,8 @@
+# 截图粘贴助手 运行依赖（开发 B，任务 B4）
+# pywin32：win32clipboard / win32gui（剪贴板监听与重建，开发 A 使用）
+# Pillow：托盘图标绘制 + 临时 PNG 生成
+# pystray：系统托盘
+pywin32
+Pillow
+pystray
+# pyautogui  # 仅验收脚本（tools/selfcheck.py）使用，正式运行不需要，故注释掉

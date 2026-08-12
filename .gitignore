@@ -1,0 +1,19 @@
+# 运行时生成 / 个人配置（不要提交）
+config.json
+app.log
+temp/
+poc/
+tools/captured.png
+tools/_selftest_saved/
+tools/_selftest_temp/
+
+# 构建产物（build.bat / PyInstaller 生成）
+build/
+dist/
+*.spec
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

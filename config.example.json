@@ -1,0 +1,9 @@
+{
+  "filename_format": "截图_%Y-%m-%d_%H-%M-%S",
+  "mode": "A",
+  "autostart": false,
+  "save_dir": "",
+  "temp_dir": "",
+  "paused": false,
+  "show_tray": false
+}
