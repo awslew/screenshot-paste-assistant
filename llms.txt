@@ -51,6 +51,8 @@ pythonw main.py          # 无控制台窗口；调试用 python main.py
 ## Optional
 
 - [LICENSE](./LICENSE) — MIT
-- [tools/selftest_engine.py](./tools/selftest_engine.py) — 自测（末行应输出 `最终判定: PASS`）
+- [requirements.txt](./requirements.txt) — 运行依赖（`pywin32` / `Pillow` / `pystray`）
+- [tools/selftest_engine.py](./tools/selftest_engine.py) — 自测（末行应输出 `最终判定: PASS`；
+  它会启动真实监听窗口并真的读写系统剪贴板，**会覆盖你当前剪贴板的内容**）
 - [tools/capture_clipboard.py](./tools/capture_clipboard.py) — 剪贴板格式侦查工具
 - [build.bat](./build.bat) — PyInstaller 打包（产物 `dist\ScreenshotPasteAssistant\`）

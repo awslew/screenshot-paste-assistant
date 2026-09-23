@@ -40,7 +40,12 @@ build.bat                            # PyInstaller 打包 → dist\ScreenshotPas
    和 README 的配置表（中英两张表都要改）。
 6. **`autostart.py` 直接运行是自测**（会启用→检查→**禁用**自启），不是 CLI 开关。
    别在文档里承诺 `autostart.py unregister` 这类参数。
-7. **不要提交 `temp/`、`poc/`、`tools/captured.png`**——它们可能含真实截图（已 gitignore）。
+7. **不要提交 `temp/`、`poc/`、`tools/captured.png`、`tools/_selftest_temp/`、`tools/_selftest_saved/`、
+   `build/`、`dist/`**——前几项可能含真实截图（全部已在 `.gitignore` 里）。
+   自测会在 `tools/_selftest_temp/` 与 `tools/_selftest_saved/` 落下**真实 PNG**，并注入系统剪贴板，
+   跑自测等于覆盖你当前剪贴板的内容。
+8. **`build.bat` 必须保持 ASCII-only**：`cmd.exe` 用本地 OEM 代码页（zh-CN 下是 GBK）解析批处理，
+   里面出现非 ASCII 文本会被解析成乱码（该文件头部注释已写明）。
 
 ## 目录速览
 
