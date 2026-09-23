@@ -4,6 +4,31 @@
 
 A lightweight Windows background tool that lets you **paste a screenshot as an image file with Ctrl+V in any folder**, right after you take it with **Win+Shift+S**.
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+![Platform: Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
+![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue)
+
+---
+
+## 快速开始 / Quick start
+
+```bash
+git clone https://github.com/awslew/screenshot-paste-assistant.git
+cd ScreenshotPasteAssistant
+pip install -r requirements.txt
+pythonw main.py
+```
+
+然后：**Win+Shift+S** 截图 → 打开任意文件夹 → **Ctrl+V** → 图片文件出现。
+
+```bash
+git clone https://github.com/awslew/screenshot-paste-assistant.git && cd ScreenshotPasteAssistant
+pip install -r requirements.txt
+pythonw main.py          # no console window; use `python main.py` to see logs
+```
+
+Then: **Win+Shift+S** → open any folder → **Ctrl+V**.
+
 ---
 
 ## 痛点 / Why this exists
@@ -123,6 +148,56 @@ tools/                # capture_clipboard.py / selftest_engine.py
 DESIGN.md             # 设计文档（根因 / 接口契约 / 线程模型）
 LICENSE               # MIT
 ```
+
+## 🤖 For AI agents
+
+- **What it is**: a Windows clipboard background daemon. It does not take screenshots — it makes
+  an existing screenshot pasteable as a *file*. Core trick: add the `CF_HDROP` file-class format
+  that Explorer requires, while keeping the original DIB/DIBV5/PNG formats.
+- **How to run**: `pythonw main.py` (no console) or `python main.py` (with logs). Requires Windows + Python 3.9+.
+- **How to verify it works**: `python tools/selftest_engine.py` — the last line must print `最终判定: PASS`.
+- **Inspect clipboard formats**: `python tools/capture_clipboard.py --wait N`.
+- **Package**: `build.bat` → `dist\ScreenshotPasteAssistant\` (PyInstaller `--noconsole --onedir`).
+- **Config**: `config.json` next to the program (auto-created); hot-reloads ~1s after save.
+  Key: `"paused": true` disables all processing without quitting.
+- **Not a screenshot tool**: it reacts to *any* image copied to the clipboard, not only Win+Shift+S.
+- Docs index: [llms.txt](./llms.txt). Contributor/agent conventions: [AGENTS.md](./AGENTS.md).
+
+---
+
+## 常见问题 / FAQ
+
+**粘贴出来的图片存在哪？**
+A 模式（默认）下临时 PNG 落在程序目录的 `temp\`（每小时清理 24 小时前的文件），
+Ctrl+V 时 Explorer 会把它**复制**到你粘贴的位置——源临时文件保留，可随时删。
+
+**为什么 Win+V 剪贴板历史里看不到？**
+重建后剪贴板不再包含 Windows 私有 OLE 格式，云剪贴板/历史可能不收录
+（见上方「已知取舍」）。**这是有意取舍**：私有格式无法通过 `SetClipboardData` 还原，
+要保它能粘贴成文件，就只能放弃它。核心目标（Ctrl+V 出文件）不受影响。
+
+**我不想让它处理所有复制的图片，能只处理截图吗？**
+不能按来源区分（Windows 剪贴板不携带"来自 Win+Shift+S"的标记）。不需要时设
+`"paused": true`，或关掉工具。
+
+**能改文件名格式吗？**
+可以，`filename_format` 是 strftime 模板，默认 `截图_%Y-%m-%d_%H-%M-%S`。
+同一秒内多次截图会自动加 `_1` 后缀去重。
+
+**怎么彻底卸载？**
+退出程序（托盘菜单，或 `taskkill /F /PID <pid>`），再删除程序目录。若开过开机自启，
+删掉注册表 `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` 下的对应值即可；
+开了托盘的话直接点托盘菜单里的自启开关更省事。
+
+**怎么命令行切换开机自启？**
+`python autostart.py` —— 注意它是个**自测脚本**：会依次打印命令值、启用、检查、再**禁用**，
+跑完等于把自启关掉。要持久启用请用托盘菜单开关，或改配置里的 `autostart`。
+
+**为什么托盘图标默认不显示？**
+默认 `show_tray: false` —— 工具设计成"无感常驻"。想看到它（暂停/恢复/自启）就把
+`show_tray` 设为 `true`。
+
+---
 
 ## License
 

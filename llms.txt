@@ -1,0 +1,56 @@
+# ScreenshotPasteAssistant（截图粘贴助手）
+
+> Windows 小工具：**Win+Shift+S 截图后，在任意文件夹 Ctrl+V 直接粘贴成图片文件。**
+
+- 平台：Windows（依赖 win32 剪贴板 API 与 `WM_CLIPBOARDUPDATE`）
+- 语言 / 依赖：Python 3.9+，`requirements.txt`（pywin32 等）
+- 许可：MIT
+- 它**不是**截图工具：它让已有的截图**能被当作文件粘贴**
+
+## 它解决什么问题
+
+Win+Shift+S 截图后，剪贴板里只有位图/PNG 等**图像格式**，没有资源管理器需要的
+**文件类格式 `CF_HDROP`**，所以在文件夹里按 Ctrl+V 毫无反应。
+
+本工具后台监听剪贴板，检测到图片时：补一个指向临时 PNG 的 `CF_HDROP`，
+**同时保留原图像格式**（DIB/DIBV5/PNG）——于是文件夹里 Ctrl+V 出文件，
+Word/画图里粘贴图片也照常。
+
+## 快速开始
+
+```bash
+git clone https://github.com/awslew/screenshot-paste-assistant.git
+cd ScreenshotPasteAssistant
+pip install -r requirements.txt
+pythonw main.py          # 无控制台窗口；调试用 python main.py
+```
+
+然后：**Win+Shift+S** 截图 → 打开任意文件夹 → **Ctrl+V** → 出现
+`截图_2026-08-03_19-38-38.png`（同秒自动加 `_1` 去重）。
+
+## 主要能力
+
+- 两种模式：`A` 补粘贴（默认，不改变你的粘贴习惯）/ `B` 自动保存到指定目录
+- 工具启动时会补处理剪贴板上已有的图片（先截图、后启动也行）
+- 配置改完约 1 秒自动生效；可选开机自启；可选托盘图标
+- 默认无窗口无托盘，仅对图片触发，复制文本/文件不受影响
+
+## 已知取舍
+
+- 重建后不再包含 Windows 私有 OLE 格式 → **Win+V 云剪贴板/历史可能不收录**（有意取舍）
+- 对**所有**复制到剪贴板的图片生效（不只是截图）；不需要时设 `"paused": true`
+- 临时 PNG 为 COPY 语义，程序每小时清理 24 小时前的文件
+
+## 文档
+
+- [README.md](./README.md) — 完整说明、配置项表（中英）、FAQ
+- [DESIGN.md](./DESIGN.md) — 设计文档：根因 / 接口契约 / 线程模型
+- [AGENTS.md](./AGENTS.md) — 在此仓库开发时的约定与命令
+- [config.example.json](./config.example.json) — 配置模板
+
+## Optional
+
+- [LICENSE](./LICENSE) — MIT
+- [tools/selftest_engine.py](./tools/selftest_engine.py) — 自测（末行应输出 `最终判定: PASS`）
+- [tools/capture_clipboard.py](./tools/capture_clipboard.py) — 剪贴板格式侦查工具
+- [build.bat](./build.bat) — PyInstaller 打包（产物 `dist\ScreenshotPasteAssistant\`）
