@@ -1,6 +1,6 @@
 # ScreenshotPasteAssistant（截图粘贴助手）
 
-> Windows 小工具：**Win+Shift+S 截图后，在任意文件夹 Ctrl+V 直接粘贴成图片文件。**
+> Windows 截图后在文件夹按 Ctrl+V 没反应，只能先打开画图保存？这个后台小工具让 **Win+Shift+S 截图直接在任意文件夹 Ctrl+V 成图片文件**，普通图片粘贴仍可用。
 
 - 平台：Windows（依赖 win32 剪贴板 API 与 `WM_CLIPBOARDUPDATE`）
 - 语言 / 依赖：Python 3.9+，`requirements.txt`（pywin32 等）

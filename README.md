@@ -1,8 +1,8 @@
 # 截图粘贴助手（ScreenshotPasteAssistant）
 
-让 **Win+Shift+S 截图后，在文件夹里 Ctrl+V 就能直接粘贴成图片文件** 的轻量 Windows 后台工具。
+Windows 截图后，你想把图片放进文件夹，却发现 **Ctrl+V 没反应**，只好先打开画图再保存。这个轻量后台工具让 **Win+Shift+S 截图后，在文件夹里 Ctrl+V 就能直接得到图片文件**；在 Word 等程序里普通粘贴图片也照常可用。
 
-A lightweight Windows background tool that lets you **paste a screenshot as an image file with Ctrl+V in any folder**, right after you take it with **Win+Shift+S**.
+Windows Explorer cannot normally paste a Win+Shift+S screenshot as a file. This background tool lets you **press Ctrl+V in a folder to create the image file**, while ordinary image pasting still works.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 ![Platform: Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
@@ -14,7 +14,7 @@ A lightweight Windows background tool that lets you **paste a screenshot as an i
 
 ```bash
 git clone https://github.com/awslew/screenshot-paste-assistant.git
-cd ScreenshotPasteAssistant
+cd screenshot-paste-assistant
 pip install -r requirements.txt
 pythonw main.py
 ```
@@ -22,7 +22,7 @@ pythonw main.py
 然后：**Win+Shift+S** 截图 → 打开任意文件夹 → **Ctrl+V** → 图片文件出现。
 
 ```bash
-git clone https://github.com/awslew/screenshot-paste-assistant.git && cd ScreenshotPasteAssistant
+git clone https://github.com/awslew/screenshot-paste-assistant.git && cd screenshot-paste-assistant
 pip install -r requirements.txt
 pythonw main.py          # no console window; use `python main.py` to see logs
 ```
@@ -63,7 +63,7 @@ After Win+Shift+S the clipboard only carries bitmap/PNG image formats and **no f
 需要 Windows + Python 3.9+（开发于 3.11）。
 
 ```bash
-cd ScreenshotPasteAssistant
+cd screenshot-paste-assistant
 pip install -r requirements.txt
 ```
 
